@@ -10,8 +10,11 @@ from models.treebased_models.hist_gbr_fact import HistGBRFactory
 from models.treebased_models.lgbm_fact import LightGBMFactory
 from models.treebased_models.rand_for_fact import RandForFactory
 
+from models.linear_models.bayesian_ridge_fact import BayesianRidgeFactory
 from models.linear_models.lars_cv_fact import LarsCVFactory
 from models.linear_models.lars_fact import LarsFactory
+from models.linear_models.lasso_fact import LassoFactory
+from models.linear_models.lasso_lars_fact import LassoLarsFactory
 from models.linear_models.linear_svr_fact import LinearSVRFactory
 from models.linear_models.ridge_cv_fact import RidgeCVFactory
 from models.linear_models.ridge_fact import RidgeFactory
@@ -42,8 +45,11 @@ def get_model_factories() -> list:
     model_factories.append(RandForFactory())
     
     # Linear models
+    model_factories.append(BayesianRidgeFactory())
     model_factories.append(LarsCVFactory())
     model_factories.append(LarsFactory())
+    model_factories.append(LassoFactory())
+    model_factories.append(LassoLarsFactory())
     model_factories.append(LinearSVRFactory())
     model_factories.append(RidgeCVFactory())
     model_factories.append(RidgeFactory())

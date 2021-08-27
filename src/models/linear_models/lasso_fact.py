@@ -1,15 +1,15 @@
 """
-Child class of Model for the RidgeRegressor.
+Child class of Model for the LassoRegressor.
 """
 
 from typing import Any, Mapping
 from ray import tune
-from sklearn.linear_model import Ridge
+from sklearn.linear_model import Lasso
 from models.generic_model import ModelFactory
 
 
-class RidgeFactory(ModelFactory):
-    """Ridge Factory"""
+class LassoFactory(ModelFactory):
+    """Lasso Factory"""
 
     @staticmethod
     def search_space() -> Mapping[str, Any]:
@@ -22,10 +22,10 @@ class RidgeFactory(ModelFactory):
         """
 
         return {
-            "model_type": "Ridge",
+            "model_type": "Lasso",
+        	"fit_intercept": tune.choice([True, False]),
+            "max_iter": tune.choice(np.arange(500, 2000)),	
             "alpha": tune.uniform(0.1, 2),
-            "fit_intercept": tune.choice([True, False]),
-            "solver": tune.choice(["auto", "svd", "cholesky", "lsqr", "sparse_cg", "sag", "saga"])
         }
 
     @staticmethod
@@ -39,6 +39,6 @@ class RidgeFactory(ModelFactory):
             Model
         """
 
-        return Ridge(alpha=config['alpha'],
-                    fit_intercept=config['fit_intercept'],
-                    solver=config['solver'])
+        return Lasso(fit_intercept = config['fit_intercept'],
+                    max_iter = config['max_iter'],
+                    alpha = config['alpha'])

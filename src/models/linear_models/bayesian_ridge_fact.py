@@ -1,15 +1,15 @@
 """
-Child class of Model for the RidgeRegressor.
+Child class of Model for the BayesianRidgeRegressor.
 """
 
 from typing import Any, Mapping
 from ray import tune
-from sklearn.linear_model import Ridge
+from sklearn.linear_model import BayesianRidge
 from models.generic_model import ModelFactory
 
 
-class RidgeFactory(ModelFactory):
-    """Ridge Factory"""
+class BayesianRidgeFactory(ModelFactory):
+    """BayesianRidge Factory"""
 
     @staticmethod
     def search_space() -> Mapping[str, Any]:
@@ -22,10 +22,9 @@ class RidgeFactory(ModelFactory):
         """
 
         return {
-            "model_type": "Ridge",
-            "alpha": tune.uniform(0.1, 2),
+            "model_type": "BayesianRidge",
+            "n_iter": tune.choice(np.arange(50, 1000)),
             "fit_intercept": tune.choice([True, False]),
-            "solver": tune.choice(["auto", "svd", "cholesky", "lsqr", "sparse_cg", "sag", "saga"])
         }
 
     @staticmethod
@@ -39,6 +38,6 @@ class RidgeFactory(ModelFactory):
             Model
         """
 
-        return Ridge(alpha=config['alpha'],
-                    fit_intercept=config['fit_intercept'],
-                    solver=config['solver'])
+        return BayesianRidge(fit_intercept = config['fit_intercept'],
+                    n_iter = config['n_iter'],
+                    fit_intercept = config['fit_intercept'])
